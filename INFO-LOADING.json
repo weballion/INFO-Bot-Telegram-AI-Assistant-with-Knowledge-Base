@@ -157,10 +157,10 @@
         "triggerOn": "specificFolder",
         "folderToWatch": {
           "__rl": true,
-          "value": "1J66vkMXtM9DCik7bRbtUUOKuGtquun6j",
+          "value": "YOUR_GOOGLE_DRIVE_FOLDER_ID",
           "mode": "list",
           "cachedResultName": "N8N",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1J66vkMXtM9DCik7bRbtUUOKuGtquun6j"
+          "cachedResultUrl": "https://drive.google.com/drive/folders/YOUR_GOOGLE_DRIVE_FOLDER_ID"
         },
         "event": "fileCreated",
         "options": {}
@@ -315,7 +315,7 @@
         "updatedAt": "2026-05-15T13:36:37.930Z",
         "createdAt": "2026-05-15T13:36:29.862Z",
         "id": "59YaPd0amPnB6Dlx",
-        "name": "Semenovych Oleksii <aleksey.semenovich@gmail.com>",
+        "name": "YOUR_NAME <YOUR_EMAIL>",
         "type": "personal",
         "icon": null,
         "description": null,
