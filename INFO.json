@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-03T10:41:31.996Z",
+  "updatedAt": "2026-03-03T10:41:31.996Z",
   "createdAt": "2026-05-29T11:28:17.884Z",
   "id": "G3VQnI6lqYzdK4EC",
   "name": "Broo with Voice v2",
@@ -79,7 +79,7 @@
                   }
                 ],
                 "combinator": "and"
-              },
+              ",
               "renameOutput": true,
               "outputKey": "Текст"
             }
@@ -512,7 +512,7 @@
         "updatedAt": "2026-05-15T13:36:37.930Z",
         "createdAt": "2026-05-15T13:36:29.862Z",
         "id": "59YaPd0amPnB6Dlx",
-        "name": "Semenovych Oleksii <aleksey.semenovich@gmail.com>",
+        "name": "YOUR_NAME <YOUR_EMAIL>",
         "type": "personal",
         "icon": null,
         "description": null,
