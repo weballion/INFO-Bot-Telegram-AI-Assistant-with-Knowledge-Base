@@ -2,7 +2,7 @@
 
 Two linked n8n workflows: a Telegram bot with RAG-powered search over a custom knowledge base, and an automated document loader from Google Drive.
 
-**[RU verinfo-bot--telegram-ai-ассистент-с-базой-знаний)**
+** [RU verinfo-bot--telegram-ai-ассистент-с-базой-знаний)**
 
 ---
 
