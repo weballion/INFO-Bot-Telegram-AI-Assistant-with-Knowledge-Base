@@ -2,8 +2,6 @@
 
 Two linked n8n workflows: a Telegram bot with RAG-powered search over a custom knowledge base, and an automated document loader from Google Drive.
 
-** [RU verinfo-bot--telegram-ai-ассистент-с-базой-знаний)**
-
 ---
 
 ## Architecture
@@ -109,8 +107,10 @@ Automatically populates the vector database from files in Google Drive. Works in
 
 ### Installation
 
-1. Import the workflow JSON files into n8n.
-2. Create the required credentials (see table below).
+1. Import the workflow JSON files into n8n (`INFO.json` and `INFO-LOADING.json`).
+2. **Important Configuration Steps Before Activating:**
+   * **Google Drive Node Configuration:** In the `INFO -> LOADING` workflow, open the `File Created Trigger` node. Replace `YOUR_GOOGLE_DRIVE_FOLDER_ID` placeholder with your actual Google Drive folder ID that you want to monitor for files.
+   * **Credentials Binding:** After importing, n8n will show missing credentials. You must create and connect your own accounts for each service (see table below).
 3. Activate **INFO -> LOADING** first, then **INFO**.
 
 ### Credentials
@@ -250,8 +250,10 @@ The JSON files **do not contain API keys** — n8n stores credentials separately
 
 ### Установка
 
-1. Импортируйте JSON-файлы воркфлоу в n8n.
-2. Создайте credentials (см. таблицу ниже).
+1. Импортируйте JSON-файлы воркфлоу в n8n (`INFO.json` и `INFO-LOADING.json`).
+2. **Важные шаги настройки перед запуском:**
+   * **Настройка Google Drive:** В сценарии `INFO -> LOADING` откройте ноду `File Created Trigger`. Замените плейсхолдер `YOUR_GOOGLE_DRIVE_FOLDER_ID` на реальный ID папки вашего Google Диска, откуда бот должен забирать файлы.
+   * **Привязка Credentials (Учетных данных):** После импорта n8n укажет на отсутствие авторизации. Вам необходимо создать и привязать собственные аккаунты для каждого сервиса (см. таблицу ниже).
 3. Активируйте сначала **INFO -> LOADING**, затем **INFO**.
 
 ### Credentials
