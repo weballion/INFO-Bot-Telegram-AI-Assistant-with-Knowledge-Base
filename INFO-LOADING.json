@@ -1,0 +1,329 @@
+{
+  "updatedAt": "2026-06-08T13:32:52.581Z",
+  "createdAt": "2026-06-08T12:28:41.711Z",
+  "id": "hGUkTcspHbIN0VWm",
+  "name": "INFO -> LOADING",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c9495dd4-0e40-43f7-9c04-94f05d624804",
+              "name": "category",
+              "value": "knowledge",
+              "type": "string"
+            },
+            {
+              "id": "99533e57-20fd-4a8f-884e-09b7a96c3132",
+              "name": "file_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "70c788e7-94e7-40e7-a20a-74ef14fa8ad6",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.file_id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf",
+              "drawingsToFormat": "application/pdf",
+              "slidesToFormat": "application/pdf",
+              "sheetsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "id": "eb7decb5-87db-4a9b-a318-20dda31adac8",
+      "name": "Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        560,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hhj5wiFXVvuex3E0",
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chunkSize": 800,
+        "chunkOverlap": 150,
+        "options": {}
+      },
+      "id": "cce42b1c-2f0b-472f-9887-6cd3468682f9",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "9b818f58-9111-408c-ab30-81a789f6fbcf",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "jhLH7oyyVb4MrWdS",
+          "name": "MAIN OpenAI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "35d8530a-84fa-4e10-b3d9-d7fd93d7f121",
+      "name": "ЗАГРУЗКА В БД",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "id": "6b66acfa-1db6-4526-9f5e-edfd6daac576",
+      "name": "БАЗА ДАННЫХ",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        0
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "yuoERsXNCdbOSZuO",
+          "name": "Supabase -> INFO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1J66vkMXtM9DCik7bRbtUUOKuGtquun6j",
+          "mode": "list",
+          "cachedResultName": "N8N",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1J66vkMXtM9DCik7bRbtUUOKuGtquun6j"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "b4856a90-ded9-45a2-8733-6dacaee90d7b",
+      "name": "File Created Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hhj5wiFXVvuex3E0",
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "id": "a010d8c9-2c27-4388-8c3e-ae536c033087",
+      "name": "Extract PDF",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Что делает:\n- каждый час проверяется наличие новых файлов в папке на гугл диске\n- если такой имеется файл скачивается и преобразовывается в PDF\n- далее через GPT файл превращается в обычный текст\n- текст подготавливается к загрузке в бд\n- сохранение в базе documens",
+        "height": 192,
+        "width": 576
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "1e42ded1-ba35-4ecd-b69d-2f39361874f7",
+      "name": "Sticky Note"
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Extract PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "ЗАГРУЗКА В БД",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "БАЗА ДАННЫХ",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ЗАГРУЗКА В БД": {
+      "ai_document": [
+        [
+          {
+            "node": "БАЗА ДАННЫХ",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File Created Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract PDF": {
+      "main": [
+        [
+          {
+            "node": "БАЗА ДАННЫХ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "5679410b-d96c-45a7-be20-b3c3e4be8aa2",
+  "activeVersionId": null,
+  "versionCounter": 26,
+  "triggerCount": 0,
+  "sourceWorkflowId": null,
+  "shared": [
+    {
+      "updatedAt": "2026-06-08T12:28:41.713Z",
+      "createdAt": "2026-06-08T12:28:41.713Z",
+      "role": "workflow:owner",
+      "workflowId": "hGUkTcspHbIN0VWm",
+      "projectId": "59YaPd0amPnB6Dlx",
+      "project": {
+        "updatedAt": "2026-05-15T13:36:37.930Z",
+        "createdAt": "2026-05-15T13:36:29.862Z",
+        "id": "59YaPd0amPnB6Dlx",
+        "name": "Semenovych Oleksii <aleksey.semenovich@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "d27e72f6-0bef-4e1c-9dc6-a66b66dfd9d0"
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}
